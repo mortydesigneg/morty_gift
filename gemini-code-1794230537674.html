@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مورتي ديزاين | شكراً لانضمامك لعائلتنا 💖</title>
+    <!-- استدعاء خط Cairo للغة العربية -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome الأيقونات -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Canvas Confetti Library للمفرقعات -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --primary-bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #2b2d42;
+            --accent-color: #7209b7;
+            --shadow: 0 15px 35px rgba(142, 122, 181, 0.15);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #FFF0F5 0%, #F3E8FF 50%, #E6E6FA 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 10px;
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 480px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 28px;
+            padding: 30px 20px;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        /* الهيدر والبروفايل */
+        .profile-section {
+            margin-bottom: 20px;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 18px rgba(142, 122, 181, 0.2);
+            border: 3px solid #fff;
+            overflow: hidden;
+            padding: 8px;
+            background: #fff;
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .profile-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--text-color);
+            margin-bottom: 5px;
+        }
+
+        .profile-bio {
+            font-size: 14px;
+            color: #6c757d;
+            font-weight: 600;
+        }
+
+        /* 💌 رسالة الترحيب والشكر الأساسية */
+        .welcome-box {
+            background: linear-gradient(135deg, #FFF5F7 0%, #F3EEFF 100%);
+            border: 1px solid rgba(216, 180, 248, 0.4);
+            border-radius: 20px;
+            padding: 20px 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .welcome-title {
+            font-size: 19px;
+            font-weight: 800;
+            color: #2b2d42;
+            margin-bottom: 6px;
+        }
+
+        .welcome-desc {
+            font-size: 13.5px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* 🎟️ المربع السحري لكود الخصم (الملفت في البداية) */
+        .promo-box {
+            background: linear-gradient(135deg, #8E7AB5 0%, #A294C7 100%);
+            color: #fff;
+            border-radius: 20px;
+            padding: 20px 16px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(142, 122, 181, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .promo-text {
+            font-size: 13.5px;
+            font-weight: 700;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .promo-code-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 8px 8px 8px 15px;
+        }
+
+        .promo-code-value {
+            font-family: monospace;
+            font-size: 18px;
+            font-weight: 800;
+            color: #7209b7;
+            letter-spacing: 1px;
+        }
+
+        .copy-promo-btn {
+            background: #7209b7;
+            color: #fff;
+            border: none;
+            padding: 9px 16px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .copy-promo-btn:hover {
+            transform: scale(1.02);
+            background: #5a078f;
+        }
+
+        .copy-promo-btn.copied {
+            background: #25d366 !important;
+        }
+
+        /* 🌱 أثر يمتد (الجمعيات الخيرية) */
+        .charity-banner {
+            background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%);
+            border: 1px solid #BBF7D0;
+            border-radius: 16px;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 25px;
+            text-align: right;
+        }
+
+        .charity-icon {
+            font-size: 24px;
+            color: #166534;
+        }
+
+        .charity-text {
+            font-size: 12.5px;
+            color: #166534;
+            font-weight: 700;
+            line-height: 1.5;
+        }
+
+        /* 📸 قسم معرض الريفيوات */
+        .reviews-section {
+            margin-bottom: 25px;
+        }
+
+        .section-subtitle {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 12px;
+            text-align: right;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .reviews-gallery {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            padding: 8px 4px 15px 4px;
+            scrollbar-width: thin;
+            scroll-behavior: smooth;
+        }
+
+        .reviews-gallery::-webkit-scrollbar {
+            height: 5px;
+        }
+
+        .reviews-gallery::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+
+        .review-card {
+            flex: 0 0 135px;
+            height: 175px;
+            border-radius: 16px;
+            overflow: hidden;
+            scroll-snap-align: start;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            background: #edf2f7;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .review-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+        }
+
+        .review-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* 🔗 أزرار اللينكات ومنصات التواصل */
+        .links-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .link-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 20px;
+            border-radius: 14px;
+            text-decoration: none;
+            color: #fff;
+            font-weight: 700;
+            font-size: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: var(--transition);
+        }
+
+        .link-btn:hover {
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .link-btn .btn-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .link-btn .arrow-icon {
+            font-size: 13px;
+            opacity: 0.8;
+        }
+
+        /* ألوان المنصات */
+        .btn-store {
+            background: linear-gradient(45deg, #4361ee, #3f37c9);
+        }
+
+        .btn-tiktok {
+            background: #000000;
+        }
+
+        .btn-facebook {
+            background: #1877f2;
+        }
+
+        .btn-instagram {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+
+        .btn-whatsapp {
+            background: #25d366;
+        }
+
+        /* 🎟️ كود الخصم المصغر تحت زر المتجر */
+        .mini-coupon-box {
+            background: linear-gradient(135deg, #FFF0F5 0%, #F3E8FF 100%);
+            border: 1px dashed #D8B4F8;
+            border-radius: 14px;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 12px rgba(142, 122, 181, 0.08);
+            text-align: right;
+            margin-top: -2px;
+        }
+
+        .coupon-info span {
+            display: block;
+        }
+
+        .coupon-label {
+            font-size: 11.5px;
+            color: #6c757d;
+            font-weight: 700;
+        }
+
+        .coupon-code-mini {
+            font-family: monospace;
+            font-size: 15px;
+            font-weight: 800;
+            color: #7209b7;
+            letter-spacing: 0.5px;
+        }
+
+        .copy-mini-btn {
+            background: #7209b7;
+            color: #fff;
+            border: none;
+            padding: 7px 14px;
+            border-radius: 9px;
+            font-weight: 700;
+            font-size: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .copy-mini-btn:hover {
+            background: #5a078f;
+        }
+
+        .copy-mini-btn.copied {
+            background: #25d366 !important;
+        }
+
+        /* تصميم عارض الصور المبرمج (Lightbox Modal) */
+        .lightbox-modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.88);
+            backdrop-filter: blur(8px);
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .lightbox-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 75vh;
+            object-fit: contain;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            border: none;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            border: none;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            font-size: 22px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+
+        .lightbox-prev {
+            left: 20px;
+        }
+
+        .lightbox-next {
+            right: 20px;
+        }
+
+        .lightbox-counter {
+            margin-top: 15px;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 700;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 5px 16px;
+            border-radius: 20px;
+        }
+
+        /* فوتر بسيط */
+        .footer-text {
+            margin-top: 25px;
+            font-size: 12px;
+            color: #a0aec0;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="main-container">
+        <!-- شعار البروفايل -->
+        <div class="profile-section">
+            <div class="profile-avatar">
+                <img src="https://i.ibb.co/hRgs91Ym/my-logo-copy-Copy.png" alt="Morty Design Logo">
+            </div>
+            <h1 class="profile-title">مورتي ديزاين - Morty Design</h1>
+            <p class="profile-bio">صُنعت خصيصاً لتضيف البهجة ليومك 💖✨</p>
+        </div>
+
+        <!-- 💌 رسالة الترحيب والشكر -->
+        <div class="welcome-box">
+            <h2 class="welcome-title">شكراً لأنك اخترت متجرنا! 🎉</h2>
+            <p class="welcome-desc">
+                يسعدنا جداً انضمامك إلى عائلة <strong>مورتي</strong>. نأمل أن ينال طلبك إعجابك وتكون بداية لقصص جميلة
+                كثيرة معاً 🤍.
+            </p>
+        </div>
+
+        <!-- 🎟️ مربع كود الخصم الملفت في البداية -->
+        <div class="promo-box">
+            <p class="promo-text">
+                متضيعش الكارت! اطلب أنت وأصحابك من خلال الكود ده علشان تاخد خصم 10% على أي طلب تاني بعد كده، أنت أو أي
+                حد هيطلب من خلال الكود ده 🎁✨
+            </p>
+            <div class="promo-code-row">
+                <span class="promo-code-value" id="promoCode">MORTY10</span>
+                <button class="copy-promo-btn" id="copyBtn" onclick="copyCode('promoCode', 'copyBtn')">
+                    <i class="fa-regular fa-copy"></i> نسخ الكود
+                </button>
+            </div>
+        </div>
+
+        <!-- 🌱 أثر جميل يمتد -->
+        <div class="charity-banner">
+            <div class="charity-icon"><i class="fa-solid fa-hand-holding-heart"></i></div>
+            <div class="charity-text">
+                تم تخصيص جزء من أرباحنا  لصالح الجمعيات الخيرية 🤍. شكراً لأنك جزء من هذا العطاء والأثر الجميل.
+            </div>
+        </div>
+
+        <!-- 📸 معرض ريفيوات وتجارب العملاء -->
+        <div class="reviews-section" id="reviewsSection">
+            <div class="section-subtitle">
+                <span>⭐ رأي عملائنا وسعادتهم بالمنتجات</span>
+            </div>
+            <div class="reviews-gallery" id="reviewsGallery">
+                <div class="review-card"><img
+                        src="https://i.ibb.co/TxDN5G1y/ebb2b564-8159-4cca-b2f6-c9ec3e679e66-39-modified.webp"
+                        alt="ريفيو عميل"></div>
+                <div class="review-card"><img
+                        src="https://i.ibb.co/gMf1Ph3M/ebb2b564-8159-4cca-b2f6-c9ec3e679e66-13-modified.webp"
+                        alt="ريفيو عميل"></div>
+                <div class="review-card"><img
+                        src="https://i.ibb.co/1f2X24Hp/ebb2b564-8159-4cca-b2f6-c9ec3e679e66-10-modified.webp"
+                        alt="ريفيو عميل"></div>
+                <div class="review-card"><img
+                        src="https://i.ibb.co/Kj0SBvyQ/ebb2b564-8159-4cca-b2f6-c9ec3e679e66-5-modified.webp"
+                        alt="ريفيو عميل"></div>
+                <div class="review-card"><img
+                        src="https://i.ibb.co/3yTS7S5H/ebb2b564-8159-4cca-b2f6-c9ec3e679e66-6-modified.webp"
+                        alt="ريفيو عميل"></div>
+                <div class="review-card"><img
+                        src="https://i.ibb.co/4wp7Y7R6/ebb2b564-8159-4cca-b2f6-c9ec3e679e66-14-modified.webp"
+                        alt="ريفيو عميل"></div>
+                <div class="review-card"><img
+                        src="https://i.ibb.co/vxpC5BP6/ebb2b564-8159-4cca-b2f6-c9ec3e679e66-15-modified.webp"
+                        alt="ريفيو عميل"></div>
+                <div class="review-card"><img
+                        src="https://i.ibb.co/27bXLKsF/ebb2b564-8159-4cca-b2f6-c9ec3e679e66-21-modified.webp"
+                        alt="ريفيو عميل"></div>
+                <div class="review-card"><img
+                        src="https://i.ibb.co/WNC7sZBF/ebb2b564-8159-4cca-b2f6-c9ec3e679e66-28-modified.webp"
+                        alt="ريفيو عميل"></div>
+                <div class="review-card"><img
+                        src="https://i.ibb.co/W4p40dj4/ebb2b564-8159-4cca-b2f6-c9ec3e679e66-30-modified.webp"
+                        alt="ريفيو عميل"></div>
+            </div>
+        </div>
+
+        <!-- 🔗 روابط الصفحات ومتاجر التواصل -->
+        <div class="links-container">
+            <!-- زر المتجر الإلكتروني -->
+            <a href="https://mortydesign.myeasyorders.com/" target="_blank" class="link-btn btn-store">
+                <div class="btn-icon"><i class="fa-solid fa-bag-shopping"></i></div>
+                <span>تسوق الآن من متجرنا</span>
+                <span class="arrow-icon">◀</span>
+            </a>
+
+            <!-- 🎟️ تكرار كود الخصم بشكل مصغر وأنيق تحت زر المتجر -->
+            <div class="mini-coupon-box">
+                <div class="coupon-info">
+                    <span class="coupon-label">كود خصم 10% (استخدمه بطلباتك القادمة):</span>
+                    <span class="coupon-code-mini" id="promoCodeMini">MORTY10</span>
+                </div>
+                <button class="copy-mini-btn" id="copyBtnMini" onclick="copyCode('promoCodeMini', 'copyBtnMini')">
+                    <i class="fa-regular fa-copy"></i> نسخ
+                </button>
+            </div>
+
+            <!-- زر التيك توك -->
+            <a href="https://www.tiktok.com/@mortydesigne" target="_blank" class="link-btn btn-tiktok">
+                <div class="btn-icon"><i class="fa-brands fa-tiktok"></i></div>
+                <span>تابعنا على تيك توك</span>
+                <span class="arrow-icon">◀</span>
+            </a>
+
+            <!-- زر الفيسبوك -->
+            <a href="https://www.facebook.com/mortydesign.eg/" target="_blank" class="link-btn btn-facebook">
+                <div class="btn-icon"><i class="fa-brands fa-facebook-f"></i></div>
+                <span>صفحتنا على فيسبوك</span>
+                <span class="arrow-icon">◀</span>
+            </a>
+
+            <!-- زر إنستجرام -->
+            <a href="https://www.instagram.com/morty_design_eg/" target="_blank" class="link-btn btn-instagram">
+                <div class="btn-icon"><i class="fa-brands fa-instagram"></i></div>
+                <span>تابعنا على إنستجرام</span>
+                <span class="arrow-icon">◀</span>
+            </a>
+
+            <!-- زر التواصل واتساب -->
+            <a href="https://wa.me/201041970026" target="_blank" class="link-btn btn-whatsapp">
+                <div class="btn-icon"><i class="fa-brands fa-whatsapp"></i></div>
+                <span>تواصل سريع على الواتساب</span>
+                <span class="arrow-icon">◀</span>
+            </a>
+        </div>
+
+        <div class="footer-text">
+            © Morty Design - صُنع بحب من أجلكم 🤍
+        </div>
+    </div>
+
+    <!-- نافذة عرض الصور الكبيرة (Lightbox) -->
+    <div class="lightbox-modal" id="lightboxModal">
+        <button class="lightbox-close" id="lightboxClose">&times;</button>
+        <button class="lightbox-nav lightbox-prev" id="lightboxPrev">&#10095;</button>
+        <button class="lightbox-nav lightbox-next" id="lightboxNext">&#10094;</button>
+        <div class="lightbox-content">
+            <img id="lightboxImg" src="" alt="صورة مكبرة">
+            <div class="lightbox-counter" id="lightboxCounter">1 / 1</div>
+        </div>
+    </div>
+
+    <!-- جافاسكريبت الاحتفال، حركة التنبيه للريفيوات، النسخ، والمعرض -->
+    <script>
+        // 1. مفرقعات الاحتفال فور فتح الصفحة
+        window.addEventListener('load', () => {
+            if (typeof confetti === 'function') {
+                const count = 200;
+                const defaults = { origin: { y: 0.7 } };
+
+                function fire(particleRatio, opts) {
+                    confetti(Object.assign({}, defaults, opts, {
+                        particleCount: Math.floor(count * particleRatio)
+                    }));
+                }
+
+                fire(0.25, { spread: 26, startVelocity: 55, colors: ['#FDE2E4', '#8E7AB5', '#FF8E9E', '#E5BA73'] });
+                fire(0.2, { spread: 60, colors: ['#D8B4F8', '#FFF5F5', '#8E7AB5'] });
+                fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+                fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, colors: ['#E5BA73', '#FF8E9E'] });
+                fire(0.1, { spread: 120, startVelocity: 45 });
+            }
+        });
+
+        // 2. حركة لفت الانتباه (Auto-scroll hint) لمعرض الريفيوات عند الوصول إليه
+        document.addEventListener('DOMContentLoaded', function () {
+            const reviewsGallery = document.getElementById('reviewsGallery');
+            const reviewsSection = document.getElementById('reviewsSection');
+
+            if (reviewsGallery && reviewsSection) {
+                let hasAnimated = false;
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting && !hasAnimated) {
+                            hasAnimated = true;
+                            // تأخير بسيط ثانية ثم سحب المعرض خفيفاً لليمين ثم إرجاعه ليعلم العميل بوجود سكرول
+                            setTimeout(() => {
+                                reviewsGallery.scrollTo({ left: 250, behavior: 'smooth' });
+                                setTimeout(() => {
+                                    reviewsGallery.scrollTo({ left: 0, behavior: 'smooth' });
+                                }, 900);
+                            }, 400);
+                        }
+                    });
+                }, { threshold: 0.4 });
+
+                observer.observe(reviewsSection);
+            }
+        });
+
+        // 3. دالة عامة لنسخ الأكواد
+        function copyCode(elementId, buttonId) {
+            const codeText = document.getElementById(elementId).innerText;
+            const copyBtn = document.getElementById(buttonId);
+            const originalHTML = copyBtn.innerHTML;
+
+            navigator.clipboard.writeText(codeText).then(() => {
+                copyBtn.innerHTML = '<i class="fa-solid fa-check"></i> تم النسخ!';
+                copyBtn.classList.add('copied');
+
+                setTimeout(() => {
+                    copyBtn.innerHTML = originalHTML;
+                    copyBtn.classList.remove('copied');
+                }, 2500);
+            }).catch(err => {
+                console.error('فشل النسخ', err);
+            });
+        }
+
+        // 4. كود المعرض والـ Lightbox
+        document.addEventListener('DOMContentLoaded', function () {
+            const cards = document.querySelectorAll('.review-card');
+            const modal = document.getElementById('lightboxModal');
+            const modalImg = document.getElementById('lightboxImg');
+            const closeBtn = document.getElementById('lightboxClose');
+            const prevBtn = document.getElementById('lightboxPrev');
+            const nextBtn = document.getElementById('lightboxNext');
+            const counter = document.getElementById('lightboxCounter');
+
+            let images = [];
+            let currentIndex = 0;
+
+            cards.forEach((card, index) => {
+                const img = card.querySelector('img');
+                images.push({
+                    src: img.src,
+                    alt: img.alt
+                });
+
+                card.addEventListener('click', () => {
+                    currentIndex = index;
+                    openModal(currentIndex);
+                });
+            });
+
+            function openModal(index) {
+                modalImg.src = images[index].src;
+                modalImg.alt = images[index].alt;
+                counter.textContent = `${index + 1} / ${images.length}`;
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeModal() {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            function showNext() {
+                currentIndex = (currentIndex + 1) % images.length;
+                openModal(currentIndex);
+            }
+
+            function showPrev() {
+                currentIndex = (currentIndex - 1 + images.length) % images.length;
+                openModal(currentIndex);
+            }
+
+            closeBtn.addEventListener('click', closeModal);
+            nextBtn.addEventListener('click', showNext);
+            prevBtn.addEventListener('click', showPrev);
+
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (!modal.classList.contains('active')) return;
+                if (e.key === 'Escape') closeModal();
+                if (e.key === 'ArrowRight') showPrev();
+                if (e.key === 'ArrowLeft') showNext();
+            });
+        });
+    </script>
+</body>
+
+</html>
